@@ -1,0 +1,5 @@
+# f = open("/media/root/Data2/Projects/Research/IDS Benchmark/data/paths.txt", "r")
+f = open("/root/Documents/paths.txt", "r")
+print(f.read())
+paths = f.readlines()
+print(paths)
