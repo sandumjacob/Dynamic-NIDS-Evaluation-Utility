@@ -33,7 +33,7 @@ def async_packet_capture(stopcondition):
 def sync_packet_capture_for(seconds):
     print("Capturing packets...")
     t.start()
-    time.sleep(seconds)
+    time.sleep(float(seconds))
     t.stop()
     for result in t.results:
         log_packet(result)

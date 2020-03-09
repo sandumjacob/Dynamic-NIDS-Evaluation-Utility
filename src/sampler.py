@@ -16,15 +16,16 @@ PASSIVE_SIGNAL = clientconfig.PASSIVE_SIGNAL
 samplingComplete = False
 
 externalVMManager.launchVM()
-def sample(samplePath):
-    externalVMManager.executeFile(samplePath)
-    loggingUtil.sync_packet_capture_for(60)
-    loggingUtil.export_packet_log(True)
+def sample(sample_path, incubation_time):
+    externalVMManager.executeFile(sample_path)
+    loggingUtil.sync_packet_capture_for(incubation_time)
+    loggingUtil.export_packet_log(False)
     externalVMManager.cycleVM()
 
 def passive():
-    loggingUtil.sync_packet_capture_for(60)
-    externalVMManager.cycleVM()
+    #loggingUtil.sync_packet_capture_for(60)
+    #externalVMManager.cycleVM()
+    print("Not implemented")
 
 def enableLogging():
     print("Logging Enabled")
@@ -42,15 +43,19 @@ clientsocket.connect((IP, PORT))
 while True:
     data = clientsocket.recv(BUFFER_SIZE)
     stringData = data.decode()
-    parsedSignal = stringData[0:7]
+    parsedSignal = stringData[0:6]
     print("Parsed signal: %s" % (parsedSignal))
     if parsedSignal == SAMPLE_SIGNAL:
-        parsedData = stringData[8:len(stringData)]
-        print("Received Path: %s" % (parsedData))
-        sample(stringData[8:len(stringData)])
+        print("Sample Signal Received")
+        # TODO: Make this work when incubation_time is greater than 2 digits
+        parsed_incubation_time = stringData[6:8]
+        parsed_path = stringData[10:len(stringData)]
+        print("Received incubation time: %s" % (parsed_incubation_time))
+        print("Received path: %s" % (parsed_path))
+        sample(parsed_path, parsed_incubation_time)
         print("Sending ready message")
         clientsocket.sendall("Ready")
-    if parsedSignal == PASSIVE_SIGNAL:
+    elif parsedSignal == PASSIVE_SIGNAL:
         # Do not execute a sample
         print("Passive Signal")
         passive()

@@ -23,12 +23,12 @@ class ClientThread(Thread):
 
     # The argument origin dictates whether the sample
     # will be executed on this thread instance VM
-    def signalSampling(self, path, origin):
+    def signalSampling(self, path, incubation_time, origin):
         self.ready = False
         if origin:
             message = ""
             if origin:
-                message = "Sample: %s" % (path)
+                message = "Sample%d: %s" % (incubation_time, path)
                 print("Signal Message: %s" % (message))
             else:
                 message = "Passive: "
@@ -43,6 +43,7 @@ class ClientThread(Thread):
                 print("Sampler manager received messge:")
                 print(stringData)
                 if (stringData == "Ready"):
+                    print("SM received ready")
                     self.ready = True
 
 IP = server_config.SERVER_IP
@@ -71,11 +72,11 @@ print(t)
 # a worm-type malware sample on an origin VM so that it can
 # proliferate. A signal is sent to all the VMs, but only one
 # is told to execute a sample.
-def sampleAtOrigin(originIP, samplePath):
+def sampleAtOrigin(originIP, samplePath, incubation_time):
     for thread in threads:
         if thread.ip == originIP:
             # Execute sample at origin infection point of originIP
-            thread.signalSampling(samplePath, True)
+            thread.signalSampling(samplePath, incubation_time, True)
         else:
             thread.signalSampling(samplePath, False)
     # for thread in threads:
@@ -90,7 +91,8 @@ while console_enabled:
     # C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe
     inputIP = input("Enter IP for sampling: ")
     inputPath = input("Enter Path of Executable: ")
-    sampleAtOrigin(inputIP, inputPath)
+    input_incubation_time = int(input("Enter incubation time"))
+    sampleAtOrigin(inputIP, inputPath, input_incubation_time)
     # threads[0].signalSampling(inputPath, True)
 
 # while not console_enabled:

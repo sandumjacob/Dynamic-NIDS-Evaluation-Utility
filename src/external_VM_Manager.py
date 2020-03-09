@@ -51,19 +51,21 @@ def powerOffVM():
     response = os.popen(command).read()
     print(response)
 
-def restoreVM(snapshot):
+def restoreVM():
     print("Restoring VM")
-    command = "VBoxManage snapshot \"%s\" restore \"%s\"" % (VM_NAME, snapshot)
+    command = "VBoxManage snapshot \"%s\" restore \"%s\"" % (VM_NAME, VM_SNAPSHOT)
     # print("Command to execute:\n", command)
     response = os.popen(command).read()
-    waitForExecutionService()
     print(response)
+    time.sleep(1)
+
 
 # This method should power off the VM, restore the vM to its
 # Uninfected state, and then launch it again
 def cycleVM():
     powerOffVM()
-    restoreVM(VM_SNAPSHOT)
+    restoreVM()
+    # waitForExecutionService()
     launchVM()
     print("VM has been cycled, ready for a new sample")
 
