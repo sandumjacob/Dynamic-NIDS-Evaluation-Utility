@@ -10,7 +10,8 @@ VM_SNAPSHOT = client_config.VM_SNAPSHOT
 
 VM_CMD_PATH = "c:\\windows\\system32\\cmd.exe"
 
-def hookVM_CMD(filePath):
+
+def hook_vm_cmd(filePath):
     command = "VBoxManage --nologo guestcontrol \"%s\" run --exe \"%s\" --username %s --password %s --wait-stdout" % (VM_NAME, VM_CMD_PATH, VM_USERNAME, VM_PASSWORD)
 
     print("Command to execute:\n", command)
@@ -18,40 +19,46 @@ def hookVM_CMD(filePath):
     print("Response: ", stream)
     # subprocess.run([command, "-1"])
 
-def executeFile(filepath):
+
+def execute_file_in_vm(filepath):
     command = "VBoxManage --nologo guestcontrol \"%s\" run --exe \"%s\" --username %s --password %s --wait-stdout" % (VM_NAME, filepath, VM_USERNAME, VM_PASSWORD)
     print("Command to execute:\n", command)
     stream = os.popen(command)
     print("Response: ", stream)
 
-def listRunningVMs():
+
+def list_running_vms():
     command = "VBoxManage list runningvms" 
     print(os.system)
 
-def launchVM():
+
+def launch_vm():
     success = "VM \"Windows\" has been successfully started."
     command = """VBoxManage startvm %s 
     """ % (VM_NAME)
     response = os.popen(command).read()
     print("Waiting loop")
-    while ("started" not in response):
+    while "started" not in response:
         time.sleep(1)
     print("Response:\n",response)
     print("Done")
 
-def waitForExecutionService():
+
+def wait_for_execution_service():
     print("Waiting 30")
     time.sleep(30)
     print("Waiting done")
 
-def powerOffVM():
+
+def power_off_vm():
     print("Powering off VM")
-    command = "VBoxManage controlvm \"%s\" poweroff" % (VM_NAME)
+    command = "VBoxManage controlvm \"%s\" poweroff" % VM_NAME
     # print("Command to execute:\n", command)
     response = os.popen(command).read()
     print(response)
 
-def restoreVM():
+
+def restore_vm():
     print("Restoring VM")
     command = "VBoxManage snapshot \"%s\" restore \"%s\"" % (VM_NAME, VM_SNAPSHOT)
     # print("Command to execute:\n", command)
@@ -62,10 +69,10 @@ def restoreVM():
 
 # This method should power off the VM, restore the vM to its
 # Uninfected state, and then launch it again
-def cycleVM():
-    powerOffVM()
-    restoreVM()
+def cycle_vm():
+    power_off_vm()
+    restore_vm()
     # waitForExecutionService()
-    launchVM()
+    launch_vm()
     print("VM has been cycled, ready for a new sample")
 

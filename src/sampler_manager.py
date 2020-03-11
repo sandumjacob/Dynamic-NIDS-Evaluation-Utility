@@ -12,6 +12,7 @@ console_enabled = False
 
 class ClientThread(Thread):
     ready = False
+
     def __init__(self, ip):
         Thread.__init__(self)
         self.ip = ip
@@ -23,7 +24,7 @@ class ClientThread(Thread):
 
     # The argument origin dictates whether the sample
     # will be executed on this thread instance VM
-    def signalSampling(self, path, incubation_time, origin):
+    def signal_sampling(self, path, incubation_time, origin):
         self.ready = False
         if origin:
             message = ""
@@ -36,15 +37,16 @@ class ClientThread(Thread):
             connection.send(message.encode())
             # connection.shutdown(0)
             print("Message Sent")
-            while(not self.ready):
+            while not self.ready:
                 print("Waiting for ready")
                 data = connection.recv(BUFFER_SIZE)
-                stringData = data.decode()
+                string_data = data.decode()
                 print("Sampler manager received messge:")
-                print(stringData)
-                if (stringData == "Ready"):
+                print(string_data)
+                if string_data == "Ready":
                     print("SM received ready")
                     self.ready = True
+
 
 IP = server_config.SERVER_IP
 PORT = server_config.SERVER_PORT
@@ -72,13 +74,13 @@ print(t)
 # a worm-type malware sample on an origin VM so that it can
 # proliferate. A signal is sent to all the VMs, but only one
 # is told to execute a sample.
-def sampleAtOrigin(originIP, samplePath, incubation_time):
+def sampleAtOrigin(origin_ip, sample_path, incubation_time):
     for thread in threads:
-        if thread.ip == originIP:
+        if thread.ip == origin_ip:
             # Execute sample at origin infection point of originIP
-            thread.signalSampling(samplePath, incubation_time, True)
+            thread.signal_sampling(sample_path, incubation_time, True)
         else:
-            thread.signalSampling(samplePath, False)
+            thread.signal_sampling(sample_path, False)
     # for thread in threads:
     #     while (not thread.ready):
     #         #Wait for all samplers to finish

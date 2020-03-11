@@ -7,9 +7,10 @@ import config
 import sampler_manager as sm
 # C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe
 
-incubation_time=30
+incubation_time = 30
 # Start SamplerServer
 sm
+
 
 def test_sample_on_network(sample): 
     # Find a random IP to execute the sample on
@@ -34,6 +35,7 @@ def test_sample_on_network_menu_path():
     sample = input("Enter path of the sample (VM-relative): ")
     test_sample_on_network(sample)
 
+
 # Iterates through sample server to test all the samples in the Sample folder
 def test_all_samples_in_sample_server():
     screen = CM.Screen()
@@ -43,10 +45,12 @@ def test_all_samples_in_sample_server():
     print(paths)
     PromptUtils(screen).enter_to_continue()
 
+
 # Diagnostic test
 def open_ie_on_a_vm():
     x = input("Enter VM #")
     sm.threads[x].signalSampling("C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe", True, incubation_time)
+
 
 def open_settings():
     incubation_time = int(input("Enter incubation time for malware samples"))
