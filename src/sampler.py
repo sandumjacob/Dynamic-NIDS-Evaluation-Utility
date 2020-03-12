@@ -32,6 +32,7 @@ def generatePacket(packet):
     print("Generating packet")
 
 
+#TODO: Implement passive features
 def passive():
     # loggingUtil.sync_packet_capture_for(60)
     # externalVMManager.cycleVM()
