@@ -52,6 +52,7 @@ def open_ie_on_a_vm():
     sm.threads[x].signalSampling("C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe", True, incubation_time)
 
 
+# TODO: Fix settings
 def open_settings():
     incubation_time = int(input("Enter incubation time for malware samples"))
 

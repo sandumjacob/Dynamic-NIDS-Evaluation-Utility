@@ -1,6 +1,6 @@
 # This Python script runs on the host OS of the machine that will control the VM enviroments.
 # It acts as a client that receives signals from the samplermanager. 
-
+# TODO: Add functionality to run this all locally on a single machine with multiple VMs.
 import socket, time, threading
 import external_VM_Manager as externalVMManager
 # import client.external_VM_Manager as externalVMManager
@@ -23,6 +23,13 @@ def sample(sample_path, incubation_time):
     loggingUtil.sync_packet_capture_for(incubation_time)
     loggingUtil.export_packet_log(False)
     externalVMManager.cycle_vm()
+
+# Generate a packet inside from the host OS Python interpreter. Probably should make some sort of NAT
+# or make sure that the VM IP and Host IP and the same for experimental reasons
+# https://superuser.com/questions/302731/how-can-i-get-vmware-to-use-the-same-ip-as-the-host'
+# Scapy sounds promising as a means of generating the hand-crafted pacekts.
+def generatePacket(packet):
+    print("Generating packet")
 
 
 def passive():

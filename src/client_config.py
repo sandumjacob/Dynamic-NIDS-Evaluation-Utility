@@ -1,3 +1,5 @@
+# TODO: Make these settings transmitted to the test machines, instead of relying on local storage.
+
 import os
 
 # IP of the Server samplermanager.py

@@ -11,6 +11,7 @@ VM_SNAPSHOT = client_config.VM_SNAPSHOT
 VM_CMD_PATH = "c:\\windows\\system32\\cmd.exe"
 
 
+# TODO: Finish implementing hook_cmd functionality
 def hook_vm_cmd(filePath):
     command = "VBoxManage --nologo guestcontrol \"%s\" run --exe \"%s\" --username %s --password %s --wait-stdout" % (VM_NAME, VM_CMD_PATH, VM_USERNAME, VM_PASSWORD)
 

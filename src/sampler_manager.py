@@ -88,6 +88,11 @@ def sampleAtOrigin(origin_ip, sample_path, incubation_time):
         print("All ready")
 
 
+# Will input a specific packet and send a signal to one of the VM machines to generate that packet locally
+# Most likely to be in the form of a random packet pattern taken from a benign sample PCAP.
+def injectPacket(origin_ip, packet):
+    print("Injecting packet at %s", origin_ip)
+
 # for x in range(500):
 while console_enabled:
     # C:\\Program Files (x86)\\Internet Explorer\\iexplore.exe
